@@ -1,19 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Photo } from './photos/photo/photo';
+import { PhotoService } from './photos/photo/photo.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  photos = [
-    {
-      url: 'https://dmwnh9nwzeoaa.cloudfront.net/2020-11/ciandt-logo-thumbnail.png',
-      description: 'CI&T'
-    }, 
-    {
-      url: 'https://www.folhavitoria.com.br/geral/blogs/empregoseconcursos/wp-content/uploads/2019/09/CIT.jpg',
-      description: 'CI&T Base CPS'
-    }
-  ]
+export class AppComponent implements OnInit{
+  photos: Photo[] = []
+  
+  constructor (private photoService: PhotoService) {}
+  
+  ngOnInit () {
+    this.photoService
+      .listFromUser('flavio')
+      .subscribe(photos => this.photos = photos)
+  }
+
 }
